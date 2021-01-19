@@ -20,6 +20,14 @@ body {
     color: white;
 }
 
-p {
+p, table, h2, img, video {
     margin-left: 20px;
+}
+
+img {
+    height: 400px;
+}
+
+video {
+    padding-top: 10px;
 }
