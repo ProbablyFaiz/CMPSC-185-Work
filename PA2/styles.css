@@ -1,0 +1,33 @@
+body {
+    margin-top: 0;
+    margin-left: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.25rem;
+}
+
+.navbar {
+    background-color: black;
+    height: 40px;
+    position: relative;
+}
+
+.navbar a {
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+}
+
+p, table, h2, img, video {
+    margin-left: 20px;
+}
+
+img {
+    height: 400px;
+}
+
+video {
+    padding-top: 10px;
+}
