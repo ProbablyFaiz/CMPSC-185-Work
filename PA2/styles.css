@@ -68,3 +68,9 @@ video {
 .navbar > a:hover {
     background-color: darkgrey;
 }
+
+.scroll-button {
+    position: sticky;
+    bottom: 20px;
+    left: 20px;
+}
