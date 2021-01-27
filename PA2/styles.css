@@ -26,8 +26,21 @@ p, table, h2, img, video {
 
 img {
     height: 400px;
+    margin: 20px;
+    width: auto;
 }
 
 video {
     padding-top: 10px;
+}
+
+.photo-grid {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.photo-item {
+    align-content: center;
+    display: block;
 }
