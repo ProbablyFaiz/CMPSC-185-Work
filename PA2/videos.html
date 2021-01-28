@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Videos</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
 <div class="navbar">
@@ -16,14 +16,18 @@
 </div>
 
 <div class="photo-grid content-container">
-    <video class="photo-item" height="250" controls>
+    <video class="photo-item" height="250">
         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
                 type="video/mp4">
     </video>
-    <video class="photo-item" height="250" controls>
+    <video class="photo-item" height="250">
         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
                 type="video/mp4">
     </video>
+</div>
+<div id="media-modal">
+    <div id="modal-content">
+    </div>
 </div>
 </body>
 </html>
