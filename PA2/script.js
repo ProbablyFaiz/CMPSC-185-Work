@@ -34,7 +34,6 @@ document.querySelectorAll(".photo-item").forEach((item) => {
         const modal = document.getElementById("media-modal");
         const modalContent = document.getElementById("modal-content");
         const mediaNode = event.target.cloneNode(true);
-        console.log(mediaNode.tagName);
         if (mediaNode.tagName === "VIDEO") {
             mediaNode.setAttribute("controls", true);
         }
