@@ -4,6 +4,7 @@ class Table extends Component {
     render() {
         return (
             <div>
+                <br />
                 <table>
                     <tr>
                         <th>Country</th>

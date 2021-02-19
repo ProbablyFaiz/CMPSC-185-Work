@@ -13,7 +13,7 @@ class TabList extends Component {
             <div className="navbar">
                 {Object.keys(PageMap).map((pageKey) =>
                     <Tab active={pageKey === this.props.activeTab} onTabClick={() => this.props.setActiveTab(pageKey)}
-                         tabName={PageMap[pageKey]["name"]}/>
+                         tabName={PageMap[pageKey].name} key={pageKey}/>
                 )}
             </div>
         );
