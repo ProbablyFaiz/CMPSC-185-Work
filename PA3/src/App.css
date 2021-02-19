@@ -11,7 +11,8 @@ body {
   position: relative;
 }
 
-.navbar a {
+.navbar span {
+  cursor: pointer;
   float: left;
   text-align: center;
   font-size: 16px;
@@ -62,11 +63,11 @@ video {
   display: block;
 }
 
-.navbar > a.current {
+.navbar > span.current {
   background-color: grey;
 }
 
-.navbar > a:hover {
+.navbar > span:hover {
   background-color: darkgrey;
 }
 
