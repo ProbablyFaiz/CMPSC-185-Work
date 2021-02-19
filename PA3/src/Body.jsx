@@ -1,9 +1,9 @@
 import {Component, Fragment} from "react";
 import PropTypes from "prop-types";
-import Table from "./Table";
-import Videos from "./Videos";
-import Images from "./Images";
-import Text from "./Text";
+import Table from "./pages/Table";
+import Videos from "./pages/Videos";
+import Images from "./pages/Images";
+import Text from "./pages/Text";
 
 
 class Body extends Component {

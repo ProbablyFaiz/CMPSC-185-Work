@@ -2,11 +2,11 @@ import './App.css';
 import {Component} from "react";
 import TabList from "./TabList";
 import Body from "./Body";
-import Text from "./Text";
-import Images from "./Images";
-import Videos from "./Videos";
-import Table from "./Table";
-import Email from "./Email";
+import Text from "./pages/Text";
+import Images from "./pages/Images";
+import Videos from "./pages/Videos";
+import Table from "./pages/Table";
+import Email from "./pages/Email";
 
 export const PageMap = {
     text: {
