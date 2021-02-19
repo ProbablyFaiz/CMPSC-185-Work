@@ -4,6 +4,7 @@ import Table from "./pages/Table";
 import Videos from "./pages/Videos";
 import Images from "./pages/Images";
 import Text from "./pages/Text";
+import {PageMap} from "./App";
 
 
 class Body extends Component {
@@ -13,11 +14,8 @@ class Body extends Component {
     }
 
     render() {
-        return (
-            <Fragment>
-
-            </Fragment>
-        );
+        const CurrentPage = PageMap[this.props.activeTab].component;
+        return (<CurrentPage />);
     }
 }
 
