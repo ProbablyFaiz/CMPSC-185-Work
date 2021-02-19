@@ -21,7 +21,7 @@ class Email extends Component {
         return (
             <div className="lite-container">
                 <label>
-                    Email
+                    Email:&nbsp;
                     <input value={this.state.emailValue} onChange={e => this.setState({emailValue: e.target.value})} id="email"/>
                 </label>
                 <button onClick={() => this.validateEmail()}>Submit</button>

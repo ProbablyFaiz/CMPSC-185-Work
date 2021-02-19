@@ -11,7 +11,7 @@ class Body extends Component {
 
     render() {
         const CurrentPage = PageMap[this.props.activeTab].component;
-        return (<CurrentPage />);
+        return (<CurrentPage/>);
     }
 }
 
