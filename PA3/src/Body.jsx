@@ -1,6 +1,7 @@
-import {Component} from "react";
+import {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {PageMap} from "./App";
+import ScrollButton from "./ScrollButton";
 
 
 class Body extends Component {
@@ -11,7 +12,12 @@ class Body extends Component {
 
     render() {
         const CurrentPage = PageMap[this.props.activeTab].component;
-        return (<CurrentPage/>);
+        return (
+            <Fragment>
+                <CurrentPage/>
+                <ScrollButton/>
+            </Fragment>
+        );
     }
 }
 
