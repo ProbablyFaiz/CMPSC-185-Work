@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+const BACKEND_URL = "http://localhost:5000/tasks"
+
 class Zoom extends Component {
     constructor(props) {
         super(props);
@@ -7,7 +9,7 @@ class Zoom extends Component {
             meetings: [],
             showList: true,
             mTitle: "",
-            mDay: new Date(new Date().getTime() + 86400000),
+            mDay: new Date(new Date().getTime() + 86400000).toISOString().split('T')[0],
             mLink: "",
             mImportant: false,
             errorMessage: undefined
@@ -15,7 +17,14 @@ class Zoom extends Component {
     }
 
     componentDidMount() {
-        // TODO: Fetch meetings from db
+        this.getMeetings();
+    }
+
+    getMeetings() {
+        fetch(BACKEND_URL).then(async r => {
+            const responseJson = await r.json();
+            this.setState({meetings: responseJson});
+        })
     }
 
     onSaveMeeting() {
@@ -28,20 +37,34 @@ class Zoom extends Component {
             this.setState({errorMessage: errorMessage});
             return;
         }
-        // TODO: Save to db
-        this.setState({mTitle: "", mDay: "", mLink: "", mImportant: false});
+        const dbObject = {
+            important: this.state.mImportant,
+            title: this.state.mTitle,
+            day: this.state.mDay,
+            textInfor: this.state.mLink,
+        }
+        fetch(BACKEND_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(dbObject)
+        }).then(async r => {
+            const responseJson = await r.json();
+            this.setState(prevState => ({meetings: [...prevState.meetings, responseJson]}))
+        })
+        this.setState({mTitle: "", mDay: "", mLink: "", mImportant: false, errorMessage: "Meeting created successfully."});
     }
 
-    onDeleteMeeting() {
-
+    onDeleteMeeting(meetingId) {
+        fetch(`${BACKEND_URL}/${meetingId}`, {method: 'DELETE'}).then(() => {
+            this.setState(prevState => ({meetings: prevState.meetings.filter(m => m.id !== meetingId)}));
+        });
     }
 
     render() {
         return (
             <div style={{marginLeft: "10px"}}>
                 <h1>Zoom Meeting Manager</h1>
-
-                <button onClick={() => this.setState(prevState => ({showList: !prevState.showList}))}>
+                <button onClick={() => this.setState(prevState => ({showList: !prevState.showList, errorMessage: ""}))}>
                     {this.state.showList ? "Create Meeting" : "Full Schedule"}
                 </button>
                 <br/>
@@ -57,7 +80,7 @@ class Zoom extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.meetings.forEach(meeting =>
+                    {this.state.meetings.map(meeting =>
                         <tr key={meeting.id}>
                             <td>{meeting.title}</td>
                             <td>{meeting.day}</td>
@@ -78,8 +101,8 @@ class Zoom extends Component {
                     <br/>
                     <label>
                         Date:&nbsp;
-                        <input type="date" value={this.state.mDay.toISOString().split('T')[0]}
-                               onChange={e => this.setState({mDay: new Date(e.target.value)})}
+                        <input type="date" value={this.state.mDay}
+                               onChange={e => this.setState({mDay: e.target.value})}
                                id="mDay"/>
                     </label>
                     <br/>
@@ -106,7 +129,6 @@ class Zoom extends Component {
             </div>
         );
     }
-
 }
 
 export default Zoom;
