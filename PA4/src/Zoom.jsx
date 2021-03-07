@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 class Zoom extends Component {
     constructor(props) {
@@ -33,6 +32,10 @@ class Zoom extends Component {
         this.setState({mTitle: "", mDay: "", mLink: "", mImportant: false});
     }
 
+    onDeleteMeeting() {
+
+    }
+
     render() {
         return (
             <div style={{marginLeft: "10px"}}>
@@ -44,20 +47,26 @@ class Zoom extends Component {
                 <br/>
                 <br/>
                 {this.state.showList && <table>
+                    <thead>
                     <tr>
-                        <td>Title</td>
-                        <td>Date</td>
-                        <td>Link</td>
-                        <td>Important?</td>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Link</th>
+                        <th>Important?</th>
+                        <th>Delete</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {this.state.meetings.forEach(meeting =>
                         <tr key={meeting.id}>
                             <td>{meeting.title}</td>
                             <td>{meeting.day}</td>
-                            <td>{meeting.textInfor}</td>
-                            <td>{meeting.important}</td>
+                            <td><a href={meeting.textInfor}>Link</a></td>
+                            <td>{meeting.important ? "Yes" : "No"}</td>
+                            <td><i className="fa fa-trash" onClick={() => this.onDeleteMeeting(meeting.id)}/></td>
                         </tr>
                     )}
+                    </tbody>
                 </table>}
                 {!this.state.showList && <div>
                     <label>
@@ -69,7 +78,8 @@ class Zoom extends Component {
                     <br/>
                     <label>
                         Date:&nbsp;
-                        <input type="date" value={this.state.mDay.toISOString().split('T')[0]} onChange={e => this.setState({mDay: new Date(e.target.value)})}
+                        <input type="date" value={this.state.mDay.toISOString().split('T')[0]}
+                               onChange={e => this.setState({mDay: new Date(e.target.value)})}
                                id="mDay"/>
                     </label>
                     <br/>
