@@ -30,7 +30,7 @@ class Zoom extends Component {
     onSaveMeeting() {
         const errors = [];
         if (this.state.mTitle.length <= 0 || this.state.mTitle.length > 30) errors.push("Title length must be between 1 and 30 characters.");
-        if (this.state.mDay < new Date()) errors.push("Date cannot be in past.");
+        if (new Date(this.state.mDay) < new Date()) errors.push("Date cannot be in past.");
         if (!this.state.mLink.includes("zoom")) errors.push("Invalid Zoom link.");
         if (errors.length > 0) {
             const errorMessage = errors.reduce((msg, err, i) => i === 0 ? msg + err : msg + `\n${err}`);
@@ -43,15 +43,19 @@ class Zoom extends Component {
             day: this.state.mDay,
             textInfor: this.state.mLink,
         }
-        fetch(BACKEND_URL, {
-            method: 'POST',
+        const fetchUrl = this.state.mId === 0 ? BACKEND_URL : `${BACKEND_URL}/${this.state.mId}`
+        fetch(fetchUrl, {
+            method: this.state.mId === 0 ? 'POST' : 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(dbObject)
         }).then(async r => {
             const responseJson = await r.json();
             this.setState(prevState => ({meetings: [...prevState.meetings, responseJson]}))
         })
-        this.setState({mTitle: "", mDay: "", mLink: "", mImportant: false, errorMessage: "Meeting created successfully."});
+        this.resetFormState();
+        this.setState({
+            errorMessage: "Meeting created successfully."
+        });
     }
 
     onDeleteMeeting(meetingId) {
@@ -60,32 +64,59 @@ class Zoom extends Component {
         });
     }
 
+    onMeetingDoubleClick(meetingId) {
+        const meeting = this.state.meetings.find(m => m.id === meetingId);
+        this.setState({
+            showList: false,
+            mId: meeting.id,
+            mTitle: meeting.title,
+            mDay: new Date(meeting.day).toISOString().split('T')[0],
+            mLink: meeting.textInfor,
+            mImportant: Boolean(meeting.important)
+        });
+    }
+
+    resetFormState() {
+        this.setState({
+            mId: 0,
+            mTitle: "",
+            mDay: new Date(new Date().getTime() + 86400000).toISOString().split('T')[0],
+            mLink: "",
+            mImportant: false,
+        });
+    }
+
     render() {
         return (
             <div style={{marginLeft: "10px"}}>
                 <h1>Zoom Meeting Manager</h1>
-                <button onClick={() => this.setState(prevState => ({showList: !prevState.showList, errorMessage: ""}))}>
+                <button onClick={() => {
+                    this.setState(prevState => ({showList: !prevState.showList, errorMessage: ""}));
+                    this.resetFormState();
+                }}>
                     {this.state.showList ? "Create Meeting" : "Full Schedule"}
                 </button>
                 <br/>
                 <br/>
-                {this.state.showList && <table>
+                {this.state.showList && this.state.meetings.length === 0 && <div>
+                    No meetings available.
+                </div>}
+                {this.state.showList && this.state.meetings.length > 0 && <table>
                     <thead>
                     <tr>
                         <th>Title</th>
                         <th>Date</th>
                         <th>Link</th>
-                        <th>Important?</th>
                         <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
                     {this.state.meetings.map(meeting =>
-                        <tr key={meeting.id}>
+                        <tr key={meeting.id} onDoubleClick={() => this.onMeetingDoubleClick(meeting.id)}
+                            className={meeting.important ? "important-meeting" : ""}>
                             <td>{meeting.title}</td>
                             <td>{meeting.day}</td>
                             <td><a href={meeting.textInfor}>Link</a></td>
-                            <td>{meeting.important ? "Yes" : "No"}</td>
                             <td><i className="fa fa-trash" onClick={() => this.onDeleteMeeting(meeting.id)}/></td>
                         </tr>
                     )}
@@ -116,8 +147,9 @@ class Zoom extends Component {
                     <br/>
                     <label>
                         Important:&nbsp;
-                        <input type="checkbox" value={this.state.mImportant}
-                               onChange={e => this.setState({mImportant: e.target.value})} id="mImportant"/>
+                        <input type="checkbox" checked={this.state.mImportant}
+                               onChange={e => this.setState(prevState => ({mImportant: !prevState.mImportant}))}
+                               id="mImportant"/>
                     </label>
                     <br/>
                     <br/>

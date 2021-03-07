@@ -93,3 +93,7 @@ video {
   background-color: white;
   margin: 10%;
 }
+
+tr.important-meeting {
+  background-color: yellow;
+}
