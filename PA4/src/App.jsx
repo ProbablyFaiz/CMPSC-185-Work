@@ -7,6 +7,7 @@ import Images from "./pages/Images";
 import Videos from "./pages/Videos";
 import Table from "./pages/Table";
 import Email from "./pages/Email";
+import Zoom from "./Zoom";
 
 export const PageMap = {
     text: {
@@ -29,6 +30,10 @@ export const PageMap = {
         name: "Email",
         component: Email,
     },
+    zoom: {
+        name: "Zoom",
+        component: Zoom,
+    }
 }
 
 class App extends Component {
